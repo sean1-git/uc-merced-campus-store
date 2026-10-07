@@ -1,7 +1,3 @@
-/**
- * Displays navigation, active-order count, demo wallet balance, and installation control.
- * Receives data and actions from the hooks through App.tsx.
- */
 import { money } from "../shared/utils/money";
 import type { CampusStore } from "./useCampusStore";
 import type { PwaControls } from "../shared/pwa/usePwa";

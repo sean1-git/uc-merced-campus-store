@@ -1,7 +1,5 @@
-/**
- * Routes /api requests and resolves server-issued demo or student sessions.
- * Restricts orders to the account and delegates simulated checkout to orders.mjs.
- */
+// Resolve identity from server-issued sessions so client-supplied IDs cannot
+// select another account’s wallet or orders.
 import { json } from "./http/http.mjs";
 import { publicOrder, createDemoOrder, checkoutResult, reservationAction } from "./orders/orders.mjs";
 import { ensureInventory, inventoryRecords } from "./inventory/inventory.mjs";

@@ -1,7 +1,3 @@
-/**
- * HTTP helpers shared by the API and server entry points: JSON responses,
- * bounded JSON-body reads, and browser security headers.
- */
 export const json = (value, status = 200, extra = {}) =>
   new Response(JSON.stringify(value), {
     status,

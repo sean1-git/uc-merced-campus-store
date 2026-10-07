@@ -1,7 +1,5 @@
-/**
- * Validates and records demo checkout using server-owned prices and available funds.
- * Reuses a checkout ID on retries to avoid duplicate charges; delivery is simulated.
- */
+// A lost response must not charge twice. Retries recover the saved checkout
+// intent and prices instead of creating a new purchase.
 import catalog from "../../../../packages/domain/src/catalog/catalog.json" with { type: "json" };
 import { json, readSmallJson } from "../http/http.mjs";
 import { deliveryTimeline } from "../../../../packages/domain/src/campus/campusRouting.ts";
@@ -69,7 +67,8 @@ function orderCooldown(retryAt) {
   );
 }
 
-// Convert a database row into the response shape and derive progress from elapsed time.
+// Derive simulated progress from the saved timeline so reading an order needs
+// no background writer and later map edits cannot reroute it.
 export function publicOrder(row, now) {
   const deliveryRoute = row.delivery_route ? JSON.parse(row.delivery_route) : null;
   const timeline = deliveryRoute ? geoTimeline(deliveryRoute, row.created_at, now) : deliveryTimeline(row.location, row.created_at, now);
@@ -150,11 +149,12 @@ export async function createDemoOrder(request, db, session, now, kind = "purchas
   );
   const total = subtotal + catalog.deliveryFeeCents;
   await ensureInventory(db);
-  // Expire abandoned reservations (including those never settled to held).
+  // An expired hold must not occupy the account’s only pending-checkout slot.
   await db.prepare(
     "UPDATE checkout_queue SET status = 'expired' WHERE account_id = ? AND kind = 'reservation' AND status IN ('pending', 'held') AND expires_at <= ?",
   ).bind(session.account_id, now).run();
-  // Progress durable pending purchases left by a disconnected client.
+  // A disconnected client may leave an earlier purchase pending; let it settle
+  // before admitting new work.
   await settleTicks(db, now);
   // sequence is assigned by the shared database; client timestamps and IDs
   // never decide priority. ready_at is the end of a server-assigned 100 ms tick.

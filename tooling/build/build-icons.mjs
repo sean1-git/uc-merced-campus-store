@@ -1,4 +1,3 @@
-/** Generate browser, header and installed-app icons from the supplied artwork. */
 import sharp from "sharp";
 const source = "apps/web/assets/app-logo.png";
 for (const [name, size] of [["icon-192.png",192], ["icon-512.png",512],

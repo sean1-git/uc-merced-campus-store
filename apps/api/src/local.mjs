@@ -1,7 +1,3 @@
-/**
- * Local Node server for development and the built demo. Serves dist/client,
- * sends /api requests to the shared handler, and opens the local SQLite database.
- */
 import { createServer } from "node:http";
 import { mkdirSync, existsSync, statSync } from "node:fs";
 import { resolve, extname, sep } from "node:path";
@@ -17,7 +13,8 @@ import { staticResponse } from "./http/static-assets.mjs";
 
 const requestUrl = createRequestUrlResolver(process.env);
 
-// Runtime state and built assets remain at the repository/container root.
+// Resolve from this module so launching from another directory cannot create
+// a different demo database or serve a different asset tree.
 mkdirSync(new URL("../../../.data/", import.meta.url), { recursive: true });
 const DB = openDatabase(fileURLToPath(new URL("../../../.data/campus-demo.sqlite", import.meta.url)));
 const root = fileURLToPath(new URL("../../../dist/client", import.meta.url));
@@ -57,7 +54,7 @@ const server = createServer(async (incoming, outgoing) => {
         CANONICAL_ORIGIN: process.env.CANONICAL_ORIGIN,
         NODE_ENV: process.env.NODE_ENV,
         GOOGLE_MAPS_BROWSER_KEY: process.env.GOOGLE_MAPS_BROWSER_KEY,
-        // Vite serves the UI on 5173 and proxies API calls to this server.
+        // Allow Vite’s origin locally; production origins must be explicitly configured.
         ALLOWED_ORIGINS:
           process.env.ALLOWED_ORIGINS ||
           process.env.ALLOWED_ORIGIN ||

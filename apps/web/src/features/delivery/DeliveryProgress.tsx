@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-// Register this Material component only when a reservation or delivery is visible.
+// Lazy registration avoids downloading the progress component during idle browsing.
 export function DeliveryProgress({ value, label }: { value: number; label: string }) {
   const [ready, setReady] = useState(() => !!customElements.get("md-linear-progress"));
   useEffect(() => {

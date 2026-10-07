@@ -109,7 +109,8 @@ for (const [a, b] of geoEdges) {
 }
 type SearchTree = { costs: number[]; previous: number[] };
 const storeTrees = new Map<number, SearchTree>();
-// Binary-heap Dijkstra runs once per store. On-edge destinations reuse its tree.
+// Reuse one shortest-path tree per store because moving a delivery pin changes
+// the destination, not the campus graph.
 function searchFrom(start: number): SearchTree {
   const cached = storeTrees.get(start);
   if (cached) return cached;

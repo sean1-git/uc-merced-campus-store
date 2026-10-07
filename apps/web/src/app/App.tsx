@@ -1,14 +1,11 @@
 import { lazy, Suspense } from "react";
-/**
- * Assembles the application from the store and PWA hooks and the page components.
- * Shows shared notices and switches between shopping and order history.
- */
 import { useCampusStore } from "./useCampusStore";
 import { usePwa } from "../shared/pwa/usePwa";
 import { StoreHeader } from "./StoreHeader";
 import { StoreHero } from "../features/storefront/StoreHero";
 import { Storefront } from "../features/storefront/Storefront";
 import { ShoppingBag } from "../features/checkout/ShoppingBag";
+// Keep maps and order history out of the initial storefront download.
 const OrderHistory = lazy(() => import("../features/orders/OrderHistory").then(module => ({ default: module.OrderHistory })));
 const DeliveryLocation = lazy(() => import("../features/delivery/DeliveryMap").then(module => ({ default: module.DeliveryLocation })));
 import { Bag } from "../shared/ui/BagIcon";

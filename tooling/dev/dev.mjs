@@ -1,7 +1,3 @@
-/**
- * Starts the local API and Vite together for npm run dev.
- * Stops both child processes when the development command exits.
- */
 import { spawn } from "node:child_process";
 const children = [
   spawn(process.execPath, ["--watch", "apps/api/src/local.mjs"], {
@@ -14,6 +10,8 @@ const children = [
   }),
 ];
 let stopping = false;
+// Stop the pair together so an orphaned API or Vite process cannot keep its
+// port occupied after the other process exits.
 function stop(code = 0) {
   if (stopping) return;
   stopping = true;

@@ -1,7 +1,3 @@
-/**
- * App appearance: shared colors, typography, product cards, bag, and order timeline.
- * Media queries adapt the layout and bag shortcut for smaller screens.
- */
 :root {
   font-family: Inter, Arial, Helvetica, sans-serif;
   color: #192b35;
@@ -1082,9 +1078,8 @@ footer > span:first-child {
   }
 }
 
-/* Material 3 theme layer: Google-style tokens, surfaces, states, and motion. */
+/* Shared tokens keep native controls and Material components on the same palette. */
 :root {
-  /* Material 3 reference and system tokens. */
   --md-ref-typeface-brand: "Google Sans", Roboto, Inter, Arial, sans-serif;
   --md-ref-typeface-plain: Roboto, Inter, Arial, sans-serif;
   --md-sys-color-primary: #6750a4;

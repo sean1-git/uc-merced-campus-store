@@ -1,7 +1,3 @@
-/**
- * Reads and writes browser localStorage for the bag and pending checkout.
- * Falls back when storage is unavailable and limits restored cart quantities.
- */
 import sampleCatalog from "../../../../../packages/domain/src/catalog/catalog.json";
 import type { Cart } from "../types";
 import { persistValue } from "./persistValue";
@@ -20,6 +16,8 @@ export function save(key: string, value: unknown) {
     /* The app still works without browser storage. */
   }
 }
+// Saved browser data can be stale or edited; restore only known products and
+// bounded quantities before letting it reach the checkout UI.
 export function initialCart(): Cart {
   const stored = load<unknown>("campus-cart", {});
   if (!stored || typeof stored !== "object") return {};

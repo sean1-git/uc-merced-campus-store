@@ -1,7 +1,3 @@
-/**
- * Configures the React frontend build and writes it to dist/client.
- * During development and preview, forwards /api requests to the local backend on port 8787.
- */
 import react from "@vitejs/plugin-react";
 import { fileURLToPath } from "node:url";
 import { defineConfig } from "vite";

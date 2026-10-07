@@ -1,7 +1,7 @@
 /**
- * Database table definitions used by Drizzle to generate SQL migrations.
- * Student accounts own orders; sessions identify logins, not cooldown allowances.
- * Monetary amounts are integer cents and timestamps are milliseconds.
+ * Account-owned orders prevent a new session from bypassing wallet and cooldown
+ * limits. Integer cents avoid rounding in checkout; timestamps use milliseconds
+ * to match the API and saved delivery timelines.
  */
 import {
   sqliteTable,
@@ -51,7 +51,8 @@ export const orders = sqliteTable(
     createdAt: integer("created_at").notNull(),
   },
   (table) => [
-    // One order per session/request ID, even if multiple retries arrive together.
+    // Both constraints prevent duplicate retries; the account key also survives
+    // session replacement and requests from another tab.
     uniqueIndex("orders_session_request").on(table.sessionId, table.requestKey),
     uniqueIndex("orders_account_request").on(table.accountId, table.requestKey),
     index("orders_account_created").on(table.accountId, table.createdAt),

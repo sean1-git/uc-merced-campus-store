@@ -1,6 +1,3 @@
-/**
- * Reusable decorative shopping-bag SVG; size is configurable and color follows CSS.
- */
 export function Bag({ size = 22 }: { size?: number }) {
   return (
     <svg

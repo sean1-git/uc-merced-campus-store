@@ -1,7 +1,3 @@
-/**
- * Displays the sample menu and category filters.
- * Add buttons call the store hook to update bag quantities.
- */
 import { memo, useState } from "react";
 import type { CSSProperties } from "react";
 import { money } from "../../shared/utils/money";

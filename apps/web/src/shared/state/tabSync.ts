@@ -1,8 +1,5 @@
-/**
- * Small same-origin tab bus. BroadcastChannel is immediate; localStorage is
- * the fallback for browsers that do not implement it. Payloads contain only
- * an event name, so session data never travels through the tab bus.
- */
+// Broadcast invalidations rather than account data so each tab rechecks its
+// own session. Storage events keep this working without BroadcastChannel.
 export type TabEvent = "cart" | "checkout" | "session" | "orders";
 
 const CHANNEL_NAME = "campus-store-tabs";
@@ -45,7 +42,7 @@ export function subscribeTabEvents(listener: (type: TabEvent) => void) {
     try {
       onMessage(new MessageEvent("message", { data: JSON.parse(event.newValue) }));
     } catch {
-      /* Ignore malformed local storage events. */
+      /* Stale or malformed tab messages must not interrupt shopping. */
     }
   };
   window.addEventListener("storage", onStorage);

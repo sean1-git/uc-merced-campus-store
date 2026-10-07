@@ -1,7 +1,5 @@
-/**
- * Shared JSON request helper for the demo API. Sends same-origin session cookies,
- * skips the browser cache, times out requests, and preserves HTTP errors for checkout.
- */
+// Checkout recovery needs HTTP status and error codes to distinguish rejection
+// from an uncertain result; a failed request does not prove a purchase failed.
 import { createReadGate, retryAfterMs } from "./readGate";
 
 const read = createReadGate();

@@ -35,7 +35,8 @@ export async function availableInventory(db, now = Date.now()) {
   return new Map([...records].map(([id, record]) => [id, record.stock]));
 }
 
-// Read availability and its source metadata together; API reads never mark a sync.
+// Reading stock is not a POS sync; keep source freshness unchanged so polling
+// cannot make stale inventory look current.
 export async function inventoryRecords(db, now = Date.now()) {
   const result = await db.prepare(`SELECT i.product_id,
     i.stock_updated_at, i.synced_at,
@@ -62,7 +63,8 @@ export function inventoryFreshnessStatement(db, productId, stockUpdatedAt = null
     .bind(stockUpdatedAt, receivedAt, productId, receivedAt);
 }
 
-// q is a checkout_queue row. Check every cart line inside the write transaction.
+// q is the checkout_queue row being settled. Check its whole cart inside the
+// write transaction so a competing buyer cannot invalidate a preflight stock check.
 const stockFits = `NOT EXISTS (
   SELECT 1 FROM json_each(q.items) item
   LEFT JOIN inventory i ON i.product_id = json_extract(item.value, '$.id')

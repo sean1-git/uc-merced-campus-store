@@ -1,5 +1,5 @@
-// Stable IDs are the pickup-store link for demo products and future school data.
-// "library" is retained for compatibility with existing Bobcat/library orders.
+// Keep pickup IDs stable: changing "library" would break saved Bobcat orders
+// and the product-to-store link.
 export const stores = [
   { id: "summits", name: "The Summit's Marketplace", icon: "🛒", image: "/summit-marketplace.jpg", description: "Everyday bites, refreshing drinks & late-study essentials." },
   { id: "library", name: "Bobcat's Snack shop", icon: "🐾", image: "/bobcat-snack-shop.jpg", description: "Library study fuel, quick lunches & a little something sweet." },

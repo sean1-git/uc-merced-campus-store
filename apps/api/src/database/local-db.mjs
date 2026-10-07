@@ -1,7 +1,5 @@
-/**
- * Opens SQLite and applies each generated SQL migration once.
- * Wraps queries in the database interface also used by the worker API; tests can use memory.
- */
+// Match the worker database interface so both hosts exercise the same checkout
+// queries and atomic batch rules.
 import { DatabaseSync } from "node:sqlite";
 import { readFileSync, readdirSync } from "node:fs";
 

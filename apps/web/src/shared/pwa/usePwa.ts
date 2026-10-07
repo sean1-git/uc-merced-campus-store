@@ -1,7 +1,3 @@
-/**
- * Connects browser installation and update events to React state.
- * Provides the Install app action and fallback instructions when no prompt is available.
- */
 import { useEffect, useState } from "react";
 type InstallEvent = Event & {
   prompt: () => Promise<void>;
@@ -19,6 +15,7 @@ export function usePwa() {
   useEffect(() => {
     if (import.meta.env.MODE === "native") return;
     const beforeInstall = (event: Event) => {
+      // Keep the browser prompt for the explicit Install action.
       event.preventDefault();
       setInstallEvent(event as InstallEvent);
     };

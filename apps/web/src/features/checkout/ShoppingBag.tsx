@@ -1,8 +1,4 @@
 import { DeliveryProgress } from "../delivery/DeliveryProgress";
-/**
- * Displays bag quantities, estimated totals, and the delivery-location form.
- * Checkout calls the store hook; the server validates prices and demo funds.
- */
 import { money } from "../../shared/utils/money";
 import { formatOrderCooldown } from "./orderCooldown";
 import type { CampusStore } from "../../app/useCampusStore";

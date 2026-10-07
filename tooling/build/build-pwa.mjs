@@ -1,7 +1,6 @@
-/**
- * Runs after the client build to generate dist/client/sw.js.
- * Uses a content hash to version the static-file cache; API requests bypass that cache.
- */
+// Content-versioned caches keep a release’s HTML and chunks together. API
+// requests stay outside them so cached responses cannot stand in for live stock
+// or an authenticated checkout result.
 import { readFileSync, writeFileSync, readdirSync, statSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { resolve, relative } from "node:path";

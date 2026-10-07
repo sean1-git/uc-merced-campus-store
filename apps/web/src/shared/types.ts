@@ -1,7 +1,4 @@
-/**
- * Shared TypeScript descriptions of products, cart quantities, sessions, and orders.
- * These help catch coding mistakes; the server still validates incoming requests.
- */
+// These types disappear at runtime; API boundaries must still validate untrusted input.
 import type sampleCatalog from "../../../../packages/domain/src/catalog/catalog.json";
 import type { DeliveryPin, GeoRoute } from "../../../../packages/domain/src/campus/campusGeo";
 
