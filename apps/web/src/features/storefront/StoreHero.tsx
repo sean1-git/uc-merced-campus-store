@@ -1,36 +1,24 @@
 import { memo } from "react";
 import type { CampusStore } from "../../app/useCampusStore";
 import { money } from "../../shared/utils/money";
+import { StoreIcon } from "../../shared/ui/StoreIcon";
 
-// Keep the hero outside the menu/bag grid so both edges share the page gutters.
-export const StoreHero = memo(function StoreHero({ catalog, storeId, setView }: Pick<CampusStore, "catalog" | "storeId" | "setView">) {
-  return (
-      <div className="intro" data-store={storeId}>
-        <div>
-          <p className="eyebrow"><span className="hero-spark" aria-hidden="true">✦</span> UC MERCED. YOUR CAMPUS.</p>
-          <h1>
-            Small cravings.
-            <br />
-            Big campus energy.
-          </h1>
-          <p>
-            Fresh bites, study fuel, and little pick-me-ups.
-            <br className="desktop-break" /> Pick your favorites. We’ll take it
-            from here.
-          </p>
-          <div className="hero-actions"><md-filled-tonal-button onClick={() => document.getElementById("store-inventory")?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" })}>Explore the menu <span aria-hidden="true">↘</span></md-filled-tonal-button><button className="hero-map-link" onClick={() => setView("map")}>Choose a delivery pin ↗</button></div>
-          <div className="hero-facts"><span>02 UC Merced stores</span><span>One bag. One delivery.</span></div>
-        </div>
-        <div className="delivery-note">
-          <div className="robot-scene" aria-hidden="true">
-            <span className="orbit orbit-one" /><span className="orbit orbit-two" />
-            <span className="floating-snack snack-one">🥪</span><span className="floating-snack snack-two">☕</span>
-            <img className="delivery-robot-hero" src="/delivery-robot.svg" alt="" />
-          </div>
-          <strong>Your little delivery buddy.</strong>
-          <span>Robot delivery · simulated</span>
-          <span className="fee">{money(catalog.deliveryFeeCents)} delivery</span>
-        </div>
+export const StoreHero = memo(function StoreHero({ catalog }: Pick<CampusStore, "catalog">) {
+  return <section className="market-promos" aria-label="Campus delivery">
+    <div className="campus-promo">
+      <div className="campus-promo-copy">
+        <p className="market-eyebrow">THE CAMPUS, AT YOUR DOORSTEP</p>
+        <h1>Small cravings.<br /><em>Big campus energy.</em></h1>
+        <p>Your study snacks. Your favorite bites.<br />A little robot to bring them over.</p>
+        <a className="promo-browse" href="#campus-shops">Explore the menu <StoreIcon name="arrow" size={18} /></a>
       </div>
-  );
+      <div className="campus-promo-art" aria-hidden="true"><span className="promo-orbit" /><span className="promo-snack">🥪</span><img src="/delivery-robot.svg" alt="" width="240" height="200" /><span className="robot-label">YOUR CAMPUS CO-PILOT</span></div>
+    </div>
+    <div className="campus-side-promo">
+      <p className="market-eyebrow">BETWEEN CLASSES, SORTED.</p>
+      <h2>Two shops.<br />One happy bag.</h2>
+      <p>Mix your favorites from both campus stores in a single delivery.</p>
+      <div className="promo-fee"><strong>{money(catalog.deliveryFeeCents)}</strong><span>simulated<br />robot delivery</span><StoreIcon name="bag" size={30} /></div>
+    </div>
+  </section>;
 });

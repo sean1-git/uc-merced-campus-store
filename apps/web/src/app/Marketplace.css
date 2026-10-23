@@ -1,0 +1,280 @@
+/* Scope the marketplace shell so checkout and map components retain their contracts. */
+.marketplace-app {
+  --market-bg: #fffefa;
+  --market-surface: #fff;
+  --market-soft: #f4f4ef;
+  --market-ink: #172c49;
+  --market-muted: #626d7a;
+  --market-line: #e6e8e9;
+  --market-selected: #f9efd1;
+  --market-gold: #f0cd70;
+  --sidebar-width: 210px;
+  min-height: 100vh;
+  background: var(--market-bg);
+  color: var(--market-ink);
+}
+:root[data-theme="dark"] .marketplace-app {
+  --market-bg: #111b29;
+  --market-surface: #172333;
+  --market-soft: #213044;
+  --market-ink: #e8edf6;
+  --market-muted: #b4c1d2;
+  --market-line: #334156;
+  --market-selected: #3c3829;
+}
+.marketplace-app button, .marketplace-app a { touch-action: manipulation; }
+.marketplace-app :is(button,a,input,select):focus-visible { outline: 3px solid #b58b27; outline-offset: 3px; }
+.market-skip { position: fixed; top: -80px; left: 16px; padding: 14px 20px; background: var(--market-gold); color: #142b52; z-index: 40; }
+.market-skip:focus { top: 8px; }
+.market-header {
+  position: sticky; top: 0; z-index: 20; display: flex; align-items: center; gap: 24px;
+  height: 88px; padding: 12px 28px; background: var(--market-surface); border-bottom: 1px solid var(--market-line);
+}
+.market-brand { display: flex; align-items: center; gap: 9px; min-width: 204px; text-decoration: none; font-size: 23px; font-weight: 850; letter-spacing: -1px; }
+.market-brand img { border-radius: 12px; width: 44px; height: 44px; }
+.market-search { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 120px; background: var(--market-soft); border: 1px solid transparent; border-radius: 30px; padding: 0 16px; }
+.market-search:focus-within { border-color: #b58b27; }
+.market-search input { width: 100%; min-width: 0; padding: 14px 0; border: 0; background: transparent; color: var(--market-ink); outline: none; font-size: 14px; }
+.market-search input::placeholder { color: var(--market-muted); opacity: 1; }
+.market-location { display: flex; align-items: center; gap: 9px; background: transparent; border: 0; color: var(--market-ink); text-align: left; font-size: 13px; font-weight: 700; min-height: 44px; white-space: nowrap; }
+.market-location small { display: block; font-size: 8px; font-weight: 650; letter-spacing: 1.1px; color: var(--market-muted); margin-bottom: 4px; }
+.market-header-actions { display: flex; align-items: center; gap: 12px; }
+.market-header .theme-control { border-radius: 24px; background: var(--market-surface); border-color: var(--market-line); }
+.market-header .theme-control select { max-width: 83px; font-size: 12px; }
+.market-bag { display: flex; align-items: center; justify-content: center; gap: 10px; min-width: 70px; height: 44px; border: 0; border-radius: 24px; background: #142b52; color: white; font-weight: 750; }
+:root[data-theme="dark"] .market-bag { background: var(--market-gold); color: #142b52; }
+.market-sidebar { position: fixed; top: 88px; bottom: 0; left: 0; z-index: 10; width: var(--sidebar-width); padding: 28px 16px 20px; display: flex; flex-direction: column; overflow-y: auto; background: var(--market-surface); border-right: 1px solid var(--market-line); }
+.market-nav { display: grid; gap: 7px; }
+.market-nav button { display: flex; align-items: center; gap: 12px; padding: 13px 15px; min-height: 46px; color: var(--market-muted); background: transparent; border: 0; border-radius: 10px; text-align: left; font-size: 13px; font-weight: 650; }
+.market-nav button[aria-current="page"] { background: var(--market-selected); color: var(--market-ink); }
+.market-nav button:hover, .sidebar-shops button:hover { background: var(--market-soft); }
+.market-count { margin-left: auto; border-radius: 20px; background: var(--market-gold); color: #142b52; padding: 2px 6px; font-size: 11px; }
+.sidebar-shops { margin-top: 30px; border-top: 1px solid var(--market-line); padding-top: 24px; }
+.sidebar-label { font-size: 9px; letter-spacing: 1.2px; color: var(--market-muted); margin: 0 8px 14px; }
+.sidebar-shops button { display: flex; align-items: center; gap: 9px; width: 100%; min-height: 60px; text-align: left; background: transparent; border: 0; border-radius: 10px; color: var(--market-ink); padding: 9px 7px; font-size: 12px; line-height: 1.5; }
+.sidebar-shops img { border-radius: 50%; object-fit: cover; flex-shrink: 0; }
+.sidebar-shops button[aria-pressed="true"] img { outline: 2px solid #b58b27; outline-offset: 2px; }
+.sidebar-bottom { margin-top: auto; padding-top: 36px; }
+.sidebar-wallet { display: grid; gap: 7px; background: var(--market-soft); padding: 16px; border-radius: 12px; }
+.sidebar-wallet > span { font-size: 11px; color: var(--market-muted); }
+.sidebar-wallet strong { font-size: 25px; letter-spacing: -1px; }
+.sidebar-wallet small { font-size: 10px; color: var(--market-muted); }
+.sidebar-install { display: flex; align-items: center; gap: 12px; min-height: 46px; padding: 10px 14px; margin: 14px 0 0; background: transparent; border: 0; color: var(--market-ink); font-size: 12px; font-weight: 650; }
+.sidebar-signoff { font-size: 11px; line-height: 1.7; padding: 12px 14px 0; color: var(--market-muted); }
+.marketplace-app > main { margin-left: var(--sidebar-width); margin-right: auto; padding: 22px 36px 64px; max-width: 1640px; }
+.market-demo-note { font-size: 11px; color: var(--market-muted); display: flex; align-items: center; gap: 8px; margin-bottom: 20px; line-height: 1.5; }
+.market-demo-note > span { color: var(--market-ink); background: var(--market-selected); border-radius: 4px; font-size: 9px; letter-spacing: .7px; padding: 3px 6px; font-weight: 750; }
+.marketplace-app .inventory-disclosure { border: 0; border-radius: 0; padding: 0; background: transparent; color: var(--market-muted); margin-bottom: 20px; font-size: 11px; }
+.marketplace-app .inventory-disclosure summary { padding: 0; min-height: 30px; }
+.marketplace-app .inventory-disclosure summary > span:last-child { margin-left: 8px; }
+.market-welcome { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; margin-bottom: 24px; }
+.market-eyebrow { text-transform: uppercase; font-size: 9px; font-weight: 750; letter-spacing: 1.5px; line-height: 1.5; }
+.market-welcome .market-eyebrow { color: var(--market-muted); margin-bottom: 8px; }
+.market-welcome h2 { font-size: clamp(22px, 2.2vw, 30px); letter-spacing: -.9px; font-weight: 750; }
+.market-welcome > span { font-size: 12px; color: var(--market-muted); }
+.market-categories { display: flex; gap: 12px; margin-bottom: 26px; overflow-x: auto; padding: 4px 3px; }
+.market-categories button { display: flex; align-items: center; gap: 12px; min-height: 62px; padding: 8px 24px 8px 14px; background: var(--market-surface); border: 1px solid var(--market-line); border-radius: 40px; color: var(--market-ink); white-space: nowrap; font-size: 13px; font-weight: 650; }
+.market-categories button > span { font-size: 31px; transition: transform .2s; }
+.market-categories button:hover > span { transform: rotate(-10deg); }
+.market-categories button[aria-pressed="true"] { border-color: #c7a13f; background: var(--market-selected); }
+.market-promos { display: grid; grid-template-columns: 1.85fr 1fr; gap: 18px; margin-bottom: 34px; }
+.campus-promo { position: relative; display: flex; min-height: 260px; overflow: hidden; background: #142d52; border-radius: 18px; color: #fff; padding: 28px; }
+.campus-promo-copy { position: relative; z-index: 1; flex: 1; }
+.campus-promo .market-eyebrow { color: #f0cd70; font-size: 8px; }
+.campus-promo h1 { color: #fff; font-size: clamp(27px,2.5vw,40px); line-height: 1.1; letter-spacing: -1.4px; margin: 14px 0 12px; font-weight: 750; }
+.campus-promo h1 em { font-style: normal; color: #f3d684; }
+.campus-promo-copy > p:not(.market-eyebrow) { font-size: 12px; line-height: 1.65; color: #d2dced; }
+.campus-promo .promo-browse { display: inline-flex; align-items: center; gap: 16px; min-height: 40px; border: 0; border-radius: 25px; padding: 10px 16px; margin-top: 20px; font-size: 11px; font-weight: 700; background: #f3d684; color: #142b52; text-decoration: none; }
+.campus-promo-art { display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; width: 34%; min-width: 100px; margin-left: 8px; }
+.campus-promo-art img { width: 100%; max-width: 220px; height: auto; position: relative; filter: drop-shadow(0 20px 15px #06132780); }
+.promo-orbit { position: absolute; width: 250px; height: 250px; border: 1px solid #ffffff21; border-radius: 50%; background: #ffffff07; }
+.promo-orbit::after { content: ""; position: absolute; inset: 23px; border: 1px dashed #ffffff35; border-radius: 50%; }
+.promo-snack { position: absolute; font-size: 28px; right: 0; top: 0; transform: rotate(15deg); }
+.robot-label { position: relative; margin-top: 20px; font-size: 7px; letter-spacing: 1.4px; color: #dce6f5; }
+.campus-side-promo { display: flex; flex-direction: column; padding: 28px; border-radius: 18px; background: #f5df9e; color: #26364a; }
+.campus-side-promo h2 { font-size: clamp(24px,2vw,30px); line-height: 1.12; letter-spacing: -1px; margin: 14px 0 12px; }
+.campus-side-promo > p:not(.market-eyebrow) { font-size: 12px; line-height: 1.65; max-width: 260px; }
+.campus-side-promo .market-eyebrow { font-size: 8px; }
+.promo-fee { display: flex; gap: 12px; align-items: center; margin-top: auto; padding-top: 18px; }
+.promo-fee strong { font-size: 27px; letter-spacing: -1px; }
+.promo-fee span { font-size: 10px; line-height: 1.5; }
+.promo-fee svg { margin-left: auto; }
+.marketplace-app .shop-layout { grid-template-columns: minmax(0,1fr) 280px; gap: 26px; }
+.market-section-title { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+.market-section-title h2 { font-size: 22px; letter-spacing: -.7px; color: var(--market-ink); }
+.market-section-title > span { font-size: 11px; color: var(--market-muted); }
+.market-section-title .result-count { flex: 0 0 auto; }
+.market-shop-cards { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 18px; margin-bottom: 32px; }
+.market-shop-card { text-align: left; min-width: 0; padding: 0; background: transparent; border: 0; border-radius: 12px; color: var(--market-ink); }
+.market-shop-photo { position: relative; height: 135px; border-radius: 12px; overflow: hidden; background: var(--market-soft); }
+.market-shop-photo img { width: 100%; height: 100%; object-fit: cover; transition: transform .3s; }
+.market-shop-card:hover img { transform: scale(1.04); }
+.market-shop-photo > span { position: absolute; bottom: 10px; left: 10px; padding: 5px 9px; border-radius: 5px; background: #fff; color: #142b52; font-size: 9px; font-weight: 700; }
+.market-shop-card[aria-selected="true"] .market-shop-photo { outline: 2px solid #b58b27; outline-offset: 3px; }
+.market-shop-card[aria-selected="true"] .market-shop-photo > span { background: #f3d684; }
+.market-shop-info { display: grid; grid-template-columns: 1fr auto; gap: 6px; padding: 14px 0 0; }
+.market-shop-info strong { font-size: 13px; line-height: 1.4; }
+.market-shop-info small { grid-column: 1 / -1; font-size: 10px; color: var(--market-muted); }
+.marketplace-app .inventory-panel { animation: none; }
+.menu-title .market-eyebrow { color: var(--market-muted); margin-bottom: 7px; font-size: 8px; }
+.market-filter-bar { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
+.market-filter-bar button,.market-filter-bar select { min-height: 40px; border: 1px solid var(--market-line); background: var(--market-surface); color: var(--market-ink); border-radius: 24px; padding: 8px 13px; font-size: 11px; }
+.market-filter-bar button[aria-pressed="true"] { border-color: #b58b27; background: var(--market-selected); }
+.market-filter-bar .market-reset { border-color: transparent; text-decoration: underline; background: transparent; }
+.market-query { font-size: 13px; margin-bottom: 14px; color: var(--market-muted); overflow-wrap: anywhere; }
+.market-query button { border: 0; background: none; color: var(--market-ink); text-decoration: underline; padding: 10px; min-height: 44px; font-size: 12px; }
+.marketplace-app .products { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 22px 18px; }
+.marketplace-app .product { border: 0; padding: 0; border-radius: 12px; background: transparent; box-shadow: none; animation: none; overflow: visible; }
+.marketplace-app .product:hover { transform: none; box-shadow: none; }
+.marketplace-app .product-art { height: 155px; border-radius: 12px; overflow: hidden; }
+.marketplace-app .product-art::before { width: 110px; height: 110px; top: calc(50% - 55px); left: calc(50% - 55px); }
+.marketplace-app .food { font-size: 66px; }
+.marketplace-app .product-tag { font-size: 8px; padding: 5px 8px; top: 9px; left: 9px; backdrop-filter: none; }
+.marketplace-app .product-details { padding: 13px 0 0; }
+.marketplace-app .product-category { font-size: 8px; color: var(--market-muted); letter-spacing: 1px; margin-bottom: 6px; }
+.marketplace-app .product h3 { font-size: 15px; line-height: 1.4; letter-spacing: -.2px; }
+.marketplace-app .product-details > p { font-size: 11px; line-height: 1.6; color: var(--market-muted); }
+.marketplace-app .product-details .pickup-chip { display: block; padding: 0; background: transparent; border: 0; margin: 7px 0 0; font-size: 10px; color: var(--market-muted); }
+.marketplace-app .product-stock-details { margin: 4px 0 8px; font-size: 10px; color: var(--market-muted); }
+.marketplace-app .product-stock-details summary { min-height: 32px; padding: 8px 0; }
+.marketplace-app .product-bottom { margin-top: 4px; }
+.marketplace-app .product-bottom > strong { font-size: 18px; letter-spacing: -.5px; }
+.marketplace-app .product .add { min-height: 40px; padding: 8px 18px; background: var(--market-ink); color: var(--market-surface); border: 0; box-shadow: none; font-size: 12px; }
+.marketplace-app .in-bag-pill { font-size: 9px; bottom: 8px; right: 8px; padding: 5px 8px; }
+.marketplace-app .menu-note { font-size: 10px; line-height: 1.7; color: var(--market-muted); border-top: 1px solid var(--market-line); margin-top: 28px; padding-top: 16px; }
+.marketplace-app .bag-panel { position: sticky; top: 112px; scroll-margin-top: 112px; border: 1px solid var(--market-line); border-radius: 14px; box-shadow: none; overflow: hidden; background: var(--market-surface); }
+.marketplace-app .bag-title { padding: 18px; background: var(--market-soft); border-bottom: 1px solid var(--market-line); }
+.marketplace-app .bag-title h2 { font-size: 17px; gap: 8px; }
+.marketplace-app .bag-title > span { font-size: 10px; }
+.marketplace-app .empty-bag { padding: 38px 22px 28px; }
+.marketplace-app .empty-icon { width: 56px; height: 56px; background: var(--market-selected); color: var(--market-ink); box-shadow: none; border-radius: 50%; }
+.marketplace-app .empty-bag h3 { margin-top: 20px; font-size: 16px; }
+.marketplace-app .empty-bag p { font-size: 12px; }
+.marketplace-app .bag-foot { background: transparent; border-top: 1px solid var(--market-line); padding: 18px; font-size: 10px; }
+.marketplace-app .bag-foot p { font-size: 10px; line-height: 1.7; }
+.marketplace-app .bag-lines { padding-inline: 16px; }
+.marketplace-app .bag-line { grid-template-columns: 38px minmax(0,1fr) auto; gap: 8px; }
+.marketplace-app .bag-emoji { width: 38px; height: 38px; font-size: 22px; }
+.marketplace-app .bag-line strong { font-size: 11px; }
+.marketplace-app .checkout-note { line-height: 1.65; }
+.marketplace-app .campus-delivery { margin-top: 8px; }
+.marketplace-app > footer { margin-left: var(--sidebar-width); max-width: none; border-top: 1px solid var(--market-line); padding: 26px 36px 30px; }
+.marketplace-app .ucm-footer-brand img { width: 40px; height: 40px; }
+.marketplace-app .ucm-footer-brand strong { color: var(--market-ink); }
+.marketplace-app .ucm-footer-brand p,.marketplace-app footer > span { font-size: 10px; color: var(--market-muted); }
+.marketplace-app .mobile-bag { z-index: 22; }
+@media (min-width: 1550px) {
+  .marketplace-app .products { grid-template-columns: repeat(3,minmax(0,1fr)); }
+  .market-shop-photo { height: 165px; }
+}
+@media (max-width: 1190px) {
+  .marketplace-app { --sidebar-width: 180px; }
+  .market-header { gap: 16px; padding-inline: 20px; }
+  .market-brand { min-width: 175px; font-size: 20px; }
+  .market-brand img { width: 38px; height: 38px; }
+  .marketplace-app > main { padding-inline: 24px; }
+  .marketplace-app .shop-layout { grid-template-columns: minmax(0,1fr); }
+  .marketplace-app .bag-panel { position: static; max-width: none; }
+  .marketplace-app .products { grid-template-columns: repeat(3,minmax(0,1fr)); }
+  .market-welcome > span { display: none; }
+  .campus-promo { padding: 22px; }
+  .campus-side-promo { padding: 22px; }
+}
+@media (max-width: 950px) {
+  .marketplace-app { --sidebar-width: 0px; }
+  .market-header { flex-wrap: wrap; height: auto; gap: 12px; padding: 14px 20px; }
+  .market-brand { flex: 1; }
+  .market-search { order: 4; flex-basis: 100%; }
+  .market-sidebar { position: static; width: auto; display: flex; flex-direction: row; align-items: center; padding: 10px 20px; gap: 16px; border-right: 0; border-bottom: 1px solid var(--market-line); overflow: visible; }
+  .market-nav { display: flex; flex: 1; gap: 6px; }
+  .market-nav button { font-size: 12px; padding: 10px 12px; gap: 8px; }
+  .sidebar-shops,.sidebar-signoff { display: none; }
+  .sidebar-bottom { display: flex; gap: 12px; margin: 0; padding: 0; align-items: center; }
+  .sidebar-wallet { display: flex; background: transparent; padding: 0; align-items: center; gap: 5px; }
+  .sidebar-wallet small { display: none; }
+  .sidebar-wallet strong { font-size: 14px; letter-spacing: 0; }
+  .sidebar-install { padding: 6px; margin: 0; }
+  .sidebar-install span { display: none; }
+  .marketplace-app > main { padding-top: 20px; }
+  .market-section-title h2 { font-size: 21px; }
+  .marketplace-app .bag-panel { scroll-margin-top: 150px; }
+}
+@media (max-width: 600px) {
+  .market-header { padding: 12px 16px; gap: 10px; }
+  .market-brand { min-width: 0; font-size: 20px; gap: 7px; }
+  .market-brand img { width: 36px; height: 36px; border-radius: 9px; }
+  .market-location { order: 5; flex: 1; font-size: 11px; min-height: 30px; padding: 0; }
+  .market-location small { display: inline; margin-right: 6px; font-size: 7px; }
+  .market-location svg { width: 15px; height: 15px; }
+  .market-header-actions { gap: 6px; }
+  .market-header .theme-control { padding-left: 8px; gap: 3px; }
+  .market-header .theme-control select { font-size: 10px; max-width: 67px; }
+  .market-header .theme-control svg { display: none; }
+  .market-bag { min-width: 52px; gap: 5px; }
+  .market-search { flex-basis: 100%; }
+  .market-search input { font-size: 13px; padding: 12px 0; }
+  .market-sidebar { padding: 7px 12px; gap: 5px; }
+  .market-nav { gap: 4px; }
+  .market-nav button { font-size: 10px; padding: 8px 10px; gap: 6px; min-height: 44px; }
+  .market-nav svg { width: 17px; }
+  .sidebar-wallet { display: none; }
+  .sidebar-install { min-width: 40px; justify-content: center; }
+  .sidebar-install span { display: block; position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .marketplace-app > main { padding: 16px 16px 36px; }
+  .market-demo-note { font-size: 9px; margin-bottom: 12px; }
+  .marketplace-app .inventory-disclosure { margin-bottom: 14px; font-size: 9px; }
+  .market-welcome { margin-bottom: 14px; }
+  .market-welcome h2 { font-size: 24px; line-height: 1.2; max-width: 280px; }
+  .market-welcome .market-eyebrow { font-size: 7px; }
+  .market-categories { gap: 8px; margin-bottom: 18px; }
+  .market-categories button { flex-direction: column; gap: 7px; padding: 10px 14px; flex: 1; min-width: 78px; border-radius: 12px; font-size: 10px; }
+  .market-categories button > span { font-size: 27px; }
+  .market-promos { grid-template-columns: 1fr; gap: 12px; margin-bottom: 26px; }
+  .campus-promo { padding: 22px; min-height: 250px; border-radius: 14px; }
+  .campus-promo h1 { font-size: 29px; letter-spacing: -1px; }
+  .campus-promo-copy > p:not(.market-eyebrow) { font-size: 11px; }
+  .campus-promo-art { position: absolute; width: 100px; right: 14px; bottom: 12px; opacity: .8; }
+  .campus-promo-copy { padding-right: 0; }
+  .campus-promo .promo-browse { position: relative; z-index: 2; font-size: 10px; gap: 8px; }
+  .promo-orbit { width: 170px; height: 170px; }
+  .promo-snack,.robot-label { display: none; }
+  .campus-side-promo { display: grid; grid-template-columns: 1fr auto; gap: 8px 12px; padding: 18px 20px; border-radius: 14px; }
+  .campus-side-promo .market-eyebrow { grid-column: 1 / -1; font-size: 7px; }
+  .campus-side-promo h2 { font-size: 22px; margin: 0; }
+  .campus-side-promo > p:not(.market-eyebrow) { display: none; }
+  .promo-fee { padding: 0; margin: 0; gap: 8px; }
+  .promo-fee strong { font-size: 24px; }
+  .promo-fee span { font-size: 8px; }
+  .promo-fee svg { display: none; }
+  .market-section-title { align-items: flex-start; }
+  .market-section-title h2 { font-size: 20px; }
+  .market-section-title > span { max-width: 110px; font-size: 9px; text-align: right; }
+  .market-shop-cards { gap: 12px; margin-bottom: 26px; }
+  .market-shop-photo { height: 100px; }
+  .market-shop-photo > span { font-size: 7px; bottom: 7px; left: 7px; }
+  .market-shop-info { padding-top: 12px; gap: 5px; }
+  .market-shop-info strong { font-size: 11px; }
+  .market-shop-info svg { display: none; }
+  .market-shop-info small { font-size: 8px; line-height: 1.5; }
+  .market-filter-bar { gap: 6px; }
+  .market-filter-bar button,.market-filter-bar select { font-size: 10px; padding: 8px 11px; min-height: 44px; }
+  .marketplace-app .products { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 24px 12px; }
+  .marketplace-app .product-art { height: 130px; }
+  .marketplace-app .food { font-size: 58px; }
+  .marketplace-app .product-details { padding-top: 12px; }
+  .marketplace-app .product h3 { font-size: 13px; }
+  .marketplace-app .product-details > p { font-size: 10px; }
+  .marketplace-app .product .add { padding: 8px 13px; font-size: 11px; min-height: 44px; }
+  .marketplace-app .product-bottom > strong { font-size: 16px; }
+  .marketplace-app .product-tag { font-size: 7px; padding: 4px 6px; }
+  .marketplace-app .bag-panel { scroll-margin-top: 200px; }
+  .marketplace-app > footer { padding: 24px 16px 100px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .marketplace-app .market-categories button > span,.marketplace-app .market-shop-photo img { transition: none; }
+  .marketplace-app .market-categories button:hover > span,.marketplace-app .market-shop-card:hover img { transform: none; }
+}
+
+#campus-shops { scroll-margin-top: 190px; }
+.marketplace-app .bag-orders { display: block; margin: 16px auto; min-height: 44px; }
+

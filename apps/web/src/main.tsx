@@ -1,7 +1,6 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./app/index.css";
-import "@material/web/chips/filter-chip.js";
 import "@material/web/button/filled-tonal-button.js";
 import App from "./app/App.tsx";
 import "./shared/pwa/pwa";

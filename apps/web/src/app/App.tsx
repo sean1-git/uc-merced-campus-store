@@ -1,7 +1,8 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useLayoutEffect, useRef, useState } from "react";
 import { useCampusStore } from "./useCampusStore";
 import { usePwa } from "../shared/pwa/usePwa";
 import { StoreHeader } from "./StoreHeader";
+import { StoreSidebar } from "./StoreSidebar";
 import { StoreHero } from "../features/storefront/StoreHero";
 import { Storefront } from "../features/storefront/Storefront";
 import { ShoppingBag } from "../features/checkout/ShoppingBag";
@@ -15,22 +16,48 @@ import { DeliveryCelebration } from "../features/delivery/DeliveryCelebration";
 import "./App.css";
 import "./MaterialEnhancements.css";
 import "./Theme.css";
+import "./Marketplace.css";
+
+function focusBag() {
+  const bag = document.getElementById("bag");
+  bag?.focus({ preventScroll: true });
+  bag?.scrollIntoView({ behavior: "auto", block: "start" });
+}
 
 export default function App() {
   const store = useCampusStore();
   const pwa = usePwa();
+  const [search, setSearch] = useState("");
+  const bagFocusPending = useRef(false);
+  useLayoutEffect(() => {
+    if (store.view === "shop" && bagFocusPending.current) {
+      bagFocusPending.current = false;
+      focusBag();
+    }
+  }, [store.view]);
+  function showBag() {
+    if (store.view === "shop") { focusBag(); return; }
+    // Focus after React commits the shop; an animation frame can precede that commit.
+    bagFocusPending.current = true;
+    store.setView("shop");
+  }
+  function selectStore(id: string) {
+    store.setStoreId(id);
+    store.setFilter("All items");
+    setSearch("");
+    store.setView("shop");
+  }
   const { view, online, locked, error, booting, notice, quantity, total, orderCooldownMs, nextOrderAt } =
     store;
   const { installHelp, setInstallHelp, update } = pwa;
   return (
-    <>
+    <div className="marketplace-app">
       <DeliveryCelebration orders={store.orders} />
-      <div className="demo-strip">
-        <span>DEMO EXPERIENCE</span> Sample menu, simulated funds & robot
-        delivery. No login or real purchases. Each browser gets a demo wallet.
-      </div>
-      <StoreHeader {...store} {...pwa} />
-      <main>
+      <a className="market-skip" href="#main-content">Skip to content</a>
+      <StoreHeader {...store} search={search} onSearch={value => { setSearch(value); store.setView("shop"); }} onBag={showBag} />
+      <StoreSidebar {...store} {...pwa} onStore={selectStore} />
+      <main id="main-content" tabIndex={-1}>
+        <div className="market-demo-note"><span>DEMO</span> Sample food, a simulated wallet & robot delivery. No real purchases.</div>
         {installHelp && (
           <div className="message">
             On iPhone: open this page in Safari, tap Share, then Add to Home
@@ -92,11 +119,15 @@ export default function App() {
           <DeliveryLocation {...store} destination={store.reservation?.body.destination ?? store.pending?.body.destination ?? store.destination} />
         ) : view === "shop" ? (
           <>
-          <StoreHero catalog={store.catalog} storeId={store.storeId} setView={store.setView} />
+          <div className="market-welcome"><div><p className="market-eyebrow">UC MERCED · CAMPUS STORE</p><h2>Hey Bobcat, what sounds good?</h2></div><span>Built for the space between classes.</span></div>
+          <div className="market-categories" aria-label="Quick food categories">
+            {[["All items", "🛍️", "Everything"], ["Lunch", "🥪", "Lunch break"], ["Drinks", "🧋", "Sip & study"], ["Snacks", "🍪", "Snack time"]].map(([value, icon, label]) => <button key={value} aria-pressed={store.filter === value} onClick={() => store.setFilter(value)}><span aria-hidden="true">{icon}</span>{label}</button>)}
+          </div>
+          <StoreHero catalog={store.catalog} />
           <div className="shop-layout">
             <Storefront catalog={store.catalog} filter={store.filter} setFilter={store.setFilter}
               cart={store.cart} locked={store.locked} change={store.change}
-              storeId={store.storeId} setStoreId={store.setStoreId} />
+              storeId={store.storeId} onStore={selectStore} search={search} setSearch={setSearch} />
             <ShoppingBag {...store} />
           </div>
           </>
@@ -118,6 +149,6 @@ export default function App() {
         <div className="ucm-footer-brand"><img src="/uc-merced-seal.png" alt="University of California, Merced seal" width="64" height="64" loading="lazy" decoding="async" /><div><strong>University of California, Merced</strong><p>Campus Store · Built for the space between classes.</p></div></div>
         <span>Prototype · Simulated integrations</span>
       </footer>
-    </>
+    </div>
   );
 }

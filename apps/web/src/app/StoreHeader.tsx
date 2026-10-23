@@ -1,63 +1,28 @@
-import { money } from "../shared/utils/money";
 import type { CampusStore } from "./useCampusStore";
-import type { PwaControls } from "../shared/pwa/usePwa";
-import { ThemeControl } from "../shared/ui/ThemeControl";
+import { StoreIcon } from "../shared/ui/StoreIcon";
 
-type Props = Pick<
-  CampusStore,
-  "view" | "setView" | "activeOrders" | "session"
-> &
-  Pick<PwaControls, "installed" | "install">;
-export function StoreHeader({
-  view,
-  setView,
-  activeOrders,
-  session,
-  installed,
-  install,
-}: Props) {
-  return (
-    <header className="header">
-      <a
-        className="brand"
-        href="#"
-        onClick={() => setView("shop")}
-        aria-label="UC Merced Campus Store home"
-      >
-        <img className="app-header-logo" src="/app-logo.png" alt="Campus Store bobcat" width="60" height="60" />
-        <span>
-          campus<span className="brand-light">store</span>
-          <small>UC MERCED · DELIVERY DEMO</small>
-        </span>
-      </a>
-      <nav aria-label="Main navigation">
-        <button className={view === "map" ? "nav-active" : ""} onClick={() => setView("map")}>Campus map</button>
-        <button
-          className={view === "shop" ? "nav-active" : ""}
-          onClick={() => setView("shop")}
-        >
-          The store
-        </button>
-        <button
-          className={view === "orders" ? "nav-active" : ""}
-          onClick={() => setView("orders")}
-        >
-          My orders{" "}
-          {activeOrders > 0 && <span className="count">{activeOrders}</span>}
-        </button>
-      </nav>
-      <div className="header-actions">
-        <ThemeControl />
-        {!installed && (
-          <button className="install" onClick={() => void install()}>
-            ↧ <span>Install app</span>
-          </button>
-        )}
-        <div className="wallet">
-          <span>DEMO WALLET</span>
-          <strong>{session ? money(session.balanceCents) : "—"}</strong>
-        </div>
-      </div>
-    </header>
-  );
+type Props = Pick<CampusStore, "setView" | "quantity"> & {
+  search: string;
+  onSearch: (value: string) => void;
+  onBag: () => void;
+};
+
+export function StoreHeader({ setView, quantity, search, onSearch, onBag }: Props) {
+  return <header className="market-header">
+    <a className="market-brand" href="#" onClick={() => setView("shop")} aria-label="UC Merced Campus Store home">
+      <img src="/app-logo.png" alt="" width="44" height="44" />
+      <span>Campus Store</span>
+    </a>
+    <label className="market-search">
+      <StoreIcon name="search" />
+      <span className="sr-only">Search all campus stores</span>
+      <input type="search" placeholder="What are you craving?" value={search} onChange={event => onSearch(event.target.value)} />
+    </label>
+    <div className="market-location">
+      <StoreIcon name="pin" /><span><small>CAMPUS DELIVERY</small>UC Merced</span>
+    </div>
+    <div className="market-header-actions">
+      <button className="market-bag" onClick={onBag} aria-label={`View bag, ${quantity} ${quantity === 1 ? "item" : "items"}`}><StoreIcon name="bag" /><span>{quantity}</span></button>
+    </div>
+  </header>;
 }

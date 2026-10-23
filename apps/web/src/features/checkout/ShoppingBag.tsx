@@ -30,6 +30,7 @@ type Props = Pick<
   | "orderCooldownMs"
   | "nextOrderAt"
   | "setView"
+  | "orders"
 >;
 
 export function ShoppingBag({
@@ -56,9 +57,10 @@ export function ShoppingBag({
   orderCooldownMs,
   nextOrderAt,
   setView,
+  orders,
 }: Props) {
   return (
-    <aside className="bag-panel" id="bag">
+    <aside className="bag-panel" id="bag" tabIndex={-1} aria-label="Your shopping bag">
       <div className="bag-title">
         <h2>
           <Bag /> Your bag
@@ -215,6 +217,7 @@ export function ShoppingBag({
           )}
         </>
       )}
+      {orders.length > 0 && <button className="back bag-orders" onClick={() => setView("orders")}>View your orders →</button>}
       <div className="bag-foot">
         <span>◎</span>
         <div>
