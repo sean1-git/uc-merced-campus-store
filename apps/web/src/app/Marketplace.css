@@ -9,6 +9,7 @@
   --market-selected: #f9efd1;
   --market-gold: #f0cd70;
   --sidebar-width: 210px;
+  --content-width: 1640px;
   min-height: 100vh;
   background: var(--market-bg);
   color: var(--market-ink);
@@ -61,7 +62,14 @@
 .sidebar-wallet small { font-size: 10px; color: var(--market-muted); }
 .sidebar-install { display: flex; align-items: center; gap: 12px; min-height: 46px; padding: 10px 14px; margin: 14px 0 0; background: transparent; border: 0; color: var(--market-ink); font-size: 12px; font-weight: 650; }
 .sidebar-signoff { font-size: 11px; line-height: 1.7; padding: 12px 14px 0; color: var(--market-muted); }
-.marketplace-app > main { margin-left: var(--sidebar-width); margin-right: auto; padding: 22px 36px 64px; max-width: 1640px; }
+/* Center in the available space after the fixed sidebar, including wide screens. */
+.marketplace-app > main, .marketplace-app > footer {
+  width: min(var(--content-width), calc(100% - var(--sidebar-width)));
+  max-width: var(--content-width);
+  margin-left: max(var(--sidebar-width), calc((100% + var(--sidebar-width) - var(--content-width)) / 2));
+  margin-right: auto;
+}
+.marketplace-app > main { padding: 22px 36px 64px; }
 .market-demo-note { font-size: 11px; color: var(--market-muted); display: flex; align-items: center; gap: 8px; margin-bottom: 20px; line-height: 1.5; }
 .market-demo-note > span { color: var(--market-ink); background: var(--market-selected); border-radius: 4px; font-size: 9px; letter-spacing: .7px; padding: 3px 6px; font-weight: 750; }
 .marketplace-app .inventory-disclosure { border: 0; border-radius: 0; padding: 0; background: transparent; color: var(--market-muted); margin-bottom: 20px; font-size: 11px; }
@@ -158,7 +166,7 @@
 .marketplace-app .bag-line strong { font-size: 11px; }
 .marketplace-app .checkout-note { line-height: 1.65; }
 .marketplace-app .campus-delivery { margin-top: 8px; }
-.marketplace-app > footer { margin-left: var(--sidebar-width); max-width: none; border-top: 1px solid var(--market-line); padding: 26px 36px 30px; }
+.marketplace-app > footer { border-top: 1px solid var(--market-line); padding: 26px 36px 30px; }
 .marketplace-app .ucm-footer-brand img { width: 40px; height: 40px; }
 .marketplace-app .ucm-footer-brand strong { color: var(--market-ink); }
 .marketplace-app .ucm-footer-brand p,.marketplace-app footer > span { font-size: 10px; color: var(--market-muted); }
